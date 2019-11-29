@@ -1,0 +1,11 @@
+{
+  "profiles": {
+    "Tietokantakirjasto": {
+      "commandName": "Project",
+      "environmentVariables": {
+        "Key": "Value",
+        "picsconnectionString": "server=localhost;database=HauMauPics;trusted_connection=true"
+      }
+    }
+  }
+}

@@ -1,0 +1,41 @@
+﻿@model RyhmaHauMauMVC.Models.Elain
+@{
+    ViewData["Title"] = "Hae Lemmikkejä";
+}
+
+<body class="">
+    <h1 class="display-4">Hae lemmikkejä</h1>
+
+    @using (Html.BeginForm("LemmikkiHaku", "Elain", FormMethod.Post))
+    {
+        <div class="form-group">
+            <label class="control-label">Laji</label>
+            <select name="laji" class="form-control">
+                <option value="kaikki">Mikä tahansa</option>
+                @{
+                    foreach (var item in ViewBag.Lajit)
+                    {
+                        <option value="@item.Nimi">@item.Nimi</option>
+                    }
+                }
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label">Postinumero</label>
+            <select name="postinumero" class="form-control">
+                <option value="eivalittu">Ei valittu</option>
+                @{
+                    foreach (var item in ViewBag.Pnrot)
+                    {
+                        <option value="@item.ToString()">@item.ToString()</option>
+                    }
+                }
+            </select>
+        </div>
+        <div class="form-group">
+            <input type="submit" value="Hae" class="btn btn-success" />
+        </div>
+    }
+</body>
+

@@ -1,0 +1,97 @@
+﻿
+@{
+    ViewData["Title"] = "GPS";
+}
+
+<div id="map"></div>
+
+@{string connection = (string)Environment.GetEnvironmentVariable("GoogleApi"); }
+@section Scripts {
+
+    <script async defer type="text/javascript" src=@connection></script>
+
+    <script>
+        var map, infoWindow;
+        var postinro= [];
+        function initMap() {
+            map = new google.maps.Map(document.getElementById('map'), {
+                center: { lat: -34.397, lng: 150.644 },
+                zoom: 12
+            });
+
+            infoWindow = new google.maps.InfoWindow;
+
+            // Try HTML5 geolocation.
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(function (position) {
+                    var pos = {
+                        lat: position.coords.latitude,
+                        lng: position.coords.longitude
+                    };
+
+                    infoWindow.setPosition(pos);
+                    infoWindow.setContent('Olet tässä.');
+                    infoWindow.open(map);
+                    map.setCenter(pos);
+                }, function () {
+                    handleLocationError(true, infoWindow, map.getCenter());
+                });
+            }
+            else {
+                // Browser doesn't support Geolocation
+                handleLocationError(false, infoWindow, map.getCenter());
+            }
+        }
+
+        function handleLocationError(browserHasGeolocation, infoWindow, pos) {
+            infoWindow.setPosition(pos);
+            infoWindow.setContent(browserHasGeolocation ?
+                'Error: The Geolocation service failed.' :
+                'Error: Your browser doesn\'t support geolocation.');
+            infoWindow.open(map);
+        }
+
+        var xhr = new XMLHttpRequest();
+        xhr.onreadystatechange = fankson;
+
+         function fankson() {
+            console.dir("jotain tullut".xhr);
+            if (xhr.readyState === 4) {
+
+                var iconBase = '@Url.Content("~/img/paw-icon.png")';
+                postinro = JSON.parse(xhr.responseText);
+
+                console.dir(postinro);
+                for (let a of postinro) {
+                    let myLatLng = { lat: a.latitude, lng: a.longitude }
+                    let linkki = '@Url.Content("~/Elain/LemmikkiHaku?postinumero=")'
+                    var marker = new google.maps.Marker({
+                        position: myLatLng,
+                        map: map,
+                        icon: iconBase,
+                        title: '@Url.Content("~/Elain/LemmikkiHaku?postinumero=")' + a.postinumero, //'klikkaa nähdäksesi tämän alueen elukat',
+                        animation: google.maps.Animation.DROP,
+                    });
+
+                    google.maps.event.addListener(marker, 'click', function () {
+                        //console.log(a.postinumero);
+                        //console.log(marker.title);
+                        window.location.href = marker.title.split("=")[0] + "=" + a.postinumero;
+                        //window.location.href = "Elain/LemmikkiHaku?postinumero=" + a.postinumero;
+                    });
+                    // return marker;
+                }
+            }
+        }
+
+        function hae() {
+            xhr.open("GET", "https://localhost:44328/api/tietokanta/kayttaja/postinumero");
+            xhr.send();
+        }
+        hae();
+    </script>
+
+    <script>
+    </script>
+
+}

@@ -1,0 +1,133 @@
+﻿@model IEnumerable<RyhmaHauMauMVC.Models.Elain>
+@using RyhmaHauMauMVC.Models
+
+@{
+    ViewData["Title"] = "Lemmikit";
+}
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-8">
+            <h1 class="display-4">Lemmikkihaku</h1>
+            <hr />
+            <p>Ota yhteyttä lemmikin omistajaan klikkaamalla lemmikin nimeä.</p>
+        </div>
+        <div class="col-md-4">
+            @using (Html.BeginForm("LemmikkiHaku", "Elain", FormMethod.Post))
+            {
+                <div class="form-group">
+                    <label class="control-label">Järjestä tulokset</label>
+                    <select name="jarjestys" class="form-control">
+                        <option value="eivalittu">Ei valittu</option>
+                        <option value="Nimi">Nimi</option>
+                        <option value="Rotu">Rotu</option>
+                        <option value="Laji">Laji</option>
+                        <option value="Ikä">Ikä</option>
+                    </select>
+                </div>
+                <div class="piilotettu">
+                    <div class="form-group">
+                        <select name="laji" class="form-control">
+                            <option value=@ViewBag.Laji>@ViewBag.Laji</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <select name="postinumero" class="form-control">
+                            <option value=@ViewBag.PNro>@ViewBag.PNro</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group col-4">
+                    <input type="submit" value="Näytä" class="btn btn-success" />
+                </div>
+            }
+        </div>
+    </div>
+</div>
+   
+<br />
+<br />
+
+@if (ViewBag.Pnro != null && ViewBag.Pnro != "eivalittu")
+{
+  <p>Haku postinumerolla @ViewBag.Pnro</p>
+}
+
+<div class="list-group">
+
+    <p>
+        Sivunumero:
+        @for (int i = 1; i <= ViewBag.Sivumäärä; i++)
+        {
+            @Html.ActionLink(i.ToString(), "LemmikkiHaku", new { laji = @ViewBag.Laji, postinumero = @ViewBag.Pnro, sivunro = i - 1, jarjestys = ViewBag.Jarjestys})
+            <text> </text>
+        }
+    </p>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th class="lead">
+                    <b>Laji</b>
+                </th>
+                <th class="lead">
+                    <b>Nimi</b>
+                </th>
+                <th class="lead">
+                    <b>Ikä</b>
+                </th>
+                <th class="lead">
+                    <b>Kuvaus</b>
+                </th>
+                <th class="lead">
+                    <b>Rotu</b>
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                if (item != null)
+                {
+                    List<Kayttaja> kayttajat = ViewBag.Kayttajat;
+                    var omistaja = kayttajat.Where(k => k.KayttajaId.Equals(item.KayttajaId)).FirstOrDefault();
+                    List<Laji> lajit = ViewBag.Lajit;
+                    var laji = lajit.Where(k => k.LajiId.Equals(item.LajiId)).FirstOrDefault();
+
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => laji.Nimi)
+                        </td>
+                        <td>
+                            <a href="/elain/tiedot/@item.ElainId">
+                                @Html.DisplayFor(modelItem => item.Nimi)
+                            </a>
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Ikä)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Kuvaus)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Rotu)
+                        </td>
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+</div>
+
+<p>
+    @if (ViewBag.Sivunro != 0)
+    {
+        @Html.ActionLink("Edellinen", "LemmikkiHaku", new { laji = @ViewBag.Laji, postinumero = @ViewBag.Pnro, sivunro = @ViewBag.Sivunro - 1, jarjestys = ViewBag.Jarjestys })
+    }
+
+    @if (ViewBag.Sivunro < ViewBag.Sivumäärä - 1)
+    {
+        @Html.ActionLink("Seuraava", "LemmikkiHaku", new { laji = @ViewBag.Laji, postinumero = @ViewBag.Pnro, sivunro = @ViewBag.Sivunro + 1, jarjestys = ViewBag.Jarjestys })
+    }
+</p>
+

@@ -1,0 +1,27 @@
+﻿
+@{
+    ViewData["Title"] = "Lemmikit";
+}
+
+<body class="">
+    <div class="haekaikki">
+        <br />
+        <p class="display-4">
+            <b>
+                @Html.ActionLink("Kaikki lemmikit", "Lemmikit", "Elain", new object { },
+                new { @class = "mustalinkki" })
+            </b>
+        </p>
+        <br />
+    </div>
+    <div class="lemmikkihaku">
+        <br />
+        <p class="display-4">
+            <b>
+                @Html.ActionLink("Hae lemmikkejä", "HaeLemmikit", "Elain", new object { },
+                new { @class = "mustalinkki" })
+            </b>
+        </p>
+        <br />
+    </div>
+</body>

@@ -1,0 +1,32 @@
+﻿@{
+    ViewData["Title"] = "Login";
+}
+
+<h1 class="display-4">Kirjaudu sisään</h1>
+
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Login">
+            @*<div asp-validation-summary="ModelOnly" class="text-danger"></div>*@
+            <div class="form-group">
+                <label for="sahkoposti" class="control-label">Sähköposti</label>
+                <input name="sahkoposti" id="sahkoposti" class="form-control" />
+                <small id="emailHelp" class="form-text text-muted">Muut käyttäjät voivat ottaa sinuun yhteyttä sähköpostitse.</small>
+                @*<span asp-validation-for="Sahkoposti" class="text-danger"></span>*@
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Kirjaudu" class="btn btn-success" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    Eikö sinulla ole vielä käyttäjätunnusta?
+    @Html.ActionLink("Rekisteröidy", "Uusi", "Kayttaja")
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

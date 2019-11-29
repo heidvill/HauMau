@@ -1,0 +1,64 @@
+﻿@model RyhmaHauMauMVC.Models.Elain
+
+@{
+    ViewData["Title"] = "Lemmikin tiedot";
+}
+
+<div>
+    <h4>@Model.Nimi</h4>
+    <hr />
+    <p align="left" class=" img-fluid">
+        <img src="@Url.Action("GetKuvat", "Kuva", new { id = Model.ElainId })" alt="kuva" />
+    </p>
+    <dl class="row">
+        @{List<Kayttaja> kayttajat = ViewBag.Kayttajat;
+            var omistaja = kayttajat.Where(k => k.KayttajaId.Equals(Model.KayttajaId)).FirstOrDefault();
+            List<Laji> lajit = ViewBag.Lajit;
+            var laji = lajit.Where(k => k.LajiId.Equals(Model.LajiId)).FirstOrDefault(); }
+        <dt class="col-sm-2">
+            Omistaja
+        </dt>
+        <dd class="col-sm-10">
+            @omistaja.Sahkoposti
+        </dd>
+        <dt class="col-sm-2">
+            Laji
+        </dt>
+        <dd class="col-sm-10">
+            @laji.Nimi
+        </dd>
+        <dt class="col-sm-2">
+            Nimi
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Nimi)
+        </dd>
+        <dt class="col-sm-2">
+            Syntymäpäivä
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Syntymapaiva)
+        </dd>
+        <dt class="col-sm-2">
+            Ikä
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Ikä)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Kuvaus)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Kuvaus)
+        </dd>
+        @if (Model.Rotu != null)
+        {
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.Rotu)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.Rotu)
+            </dd>
+        }
+    </dl>
+</div>

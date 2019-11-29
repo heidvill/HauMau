@@ -1,0 +1,37 @@
+﻿@model RyhmaHauMauMVC.Models.Kayttaja
+
+@{
+    ViewData["Title"] = "Muokkaa";
+}
+
+<h4>Käyttäjätiedot</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Muokkaa">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" name="KayttajaId" value="@Model.KayttajaId" />
+            <div class="form-group">
+                <label asp-for="Sahkoposti" class="control-label">Sähköposti</label>
+                <input asp-for="Sahkoposti" class="form-control" />
+                <span asp-validation-for="Sahkoposti" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Postinumero" class="control-label"></label>
+                <input asp-for="Postinumero" class="form-control" />
+                <span asp-validation-for="Postinumero" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Tallenna" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    @Html.ActionLink("Takaisin tietoihin", "Tiedot", new { id = Model.KayttajaId })
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

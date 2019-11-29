@@ -1,0 +1,86 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+<div class="col-md-12">
+    <div class="tervetuloa">
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <h1 class="display-4">Tervetuloa!</h1>
+        <br />
+    </div>
+    <br />
+    <br />
+    <div class="container">
+        <br />
+        <div class="row">
+            <div class="col-md-7 text-center">
+                <h2 class="text-success">Mikä ihmeen HauMau?</h2>
+                <br />
+                <p>
+                    HauMau on palvelu kaikille lemmikinomistajille ja lemmikistä haaveileville.
+                    Täällä voit löytää lemmikillesi uusia leikki- ja lenkkikavereita, sekä samalla
+                    löytää ehkä itsellesikin uusia eläinrakkaita ystäviä!
+                </p>
+                <br />
+                <p>
+                    Me HauMaun kehittäjät tiedämme, mitä suurta iloa lemmikit tuovat elämään,
+                    emmekä halua kenenkään jäävän siitä paitsi.
+                </p>
+                <br />
+                <p>
+                    Hyppää mukaan kaikenkarvaiseen porukkaamme!
+                </p>
+                <br />
+                <br />
+                <a href='@Url.Action("Uusi", "Kayttaja")'>
+                    <img class="img-fluid" src="~/img/NAPPi.png" )' />
+                </a>
+                <br />
+                <br />
+            </div>
+            <div class="col-md-1"></div>
+            <br />
+            <div class="col-md-4 etusivu rounded">
+                <br />
+                <h3 class="text-secondary text-center">Uutta:</h3>
+                <br />
+                <ul class="list-group list-group-flush etusivu uutiset">
+                    @foreach (var item in ViewBag.Muutokset)
+                    {
+                        <li class="list-group-item etusivu">
+                            <small class="text-muted">@item.Pvm</small>
+                            <p><b>@item.Otsikko</b></p>
+                            <p>@item.Viesti</p>
+                        </li>
+                    }
+                </ul>
+                <br />
+                <br />
+                <h3 class="text-secondary text-center">Tulossa:</h3>
+                <br />
+                <ul class="list-group list-group-flush etusivu uutiset">
+                    @foreach (var item in ViewBag.Tulossa)
+                    {
+                        <li class="list-group-item etusivu">
+                            <small class="text-muted">@item.Pvm</small>
+                            <p><b>@item.Otsikko</b></p>
+                            <p>@item.Viesti</p>
+                        </li>
+                    }
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,48 @@
+﻿@model RyhmaHauMauMVC.Models.Kayttaja
+
+@{
+    ViewData["Title"] = "Tiedot";
+}
+
+<div class=" col-md-12">
+    <h1 class="display-4">Tiedot</h1>
+    <br />
+    <br />
+    <h4>Käyttäjä <a href="/kayttaja/muokkaa/@Model.KayttajaId"><i class='fas'>&#xf303;</i></a> </h4>
+
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            Sähköposti
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Sahkoposti)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Postinumero)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Postinumero)
+        </dd>
+    </dl>
+    <br />
+    <br />
+    <h3>
+        Lemmikit
+    </h3>
+    <hr />
+    <dl class="row">
+        @{
+            foreach (var item in ViewBag.KayttajanLemmikit)
+            {
+                <dt class="col-sm-2">
+                    <a href="/elain/tiedot/@item.ElainId"><img src='@Url.Content("~/img/paw-icon.png")'></a> @item.Nimi <a href="/elain/paivita/@item.ElainId"><span class="btn btn-sm btn-outline-success"><i class='fas'>&#xf303;</i></span></a>
+                </dt>
+            }
+            <dt class="col-sm-2">
+                <a href="/elain/luo"><img src='@Url.Content("~/img/addnew.png")'></a>Lisää uusi
+            </dt>
+        }
+    </dl>
+</div>
+
